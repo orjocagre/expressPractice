@@ -1,0 +1,35 @@
+pasos para crear una api rest con node y express
+
+
+    inicializar npm (npm init -y)
+    inicializar git (git init)
+    crear el .gitignore (gitignore.io se selecciona node y los 3 S.O.)
+    crear el .editorconfig sirve para configurar el editorconfig
+    crear el .eslintrc.json sirve para las reglas de buenas practicas
+    crear archivo inicial index.js
+
+    creamos algunas tareas en package.json ("scripts")
+      se levanta un enterno de desarrollo
+        "dev": "nodemon index.js"
+      start para iniciar con node ya en produccion
+        "dev": "node index.js"
+      correr linter que se va a asegurar de que se esten haciendo las buenas practicas
+        "lint": "eslint"
+
+    Instalar dependencias de desarrollo
+      npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier -D
+
+    Probar en entornos de desarrollo y produccion
+      npm run dev (se ve que se corre nodemon y que esta observando cambios en los archivos)
+      npm run start ( se ejecuta directamente)
+
+  Crear servidor en express
+
+    instalar express como una dependencia de produccion
+      npm i express
+
+REST Representional State Transfer (get put post delete)
+
+
+
+
