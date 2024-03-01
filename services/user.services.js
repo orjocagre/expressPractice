@@ -1,27 +1,31 @@
+const getConnection = require('../libs/postgres');
+
 class UsersService {
 
   constructor (){
     this.users = [];
-    this.generate();
+    // this.generate();
   }
 
-  generate() {
-    this.users = require('./../routes/db.json'.users);
+  // async generate() {
+  //   this.users = require('./../routes/db.json'.users);
+  // }
+
+  async find() {
+    const client = await getConnection();
+    const res = await client.query('SELECT * FROM tasks')
+    return res.rows;
   }
 
-  find() {
-    return this.users;
-  }
-
-  insert() {
+  async insert() {
 
   }
 
-  update() {
+  async update() {
 
   }
 
-  delete() {
+  async delete() {
 
   }
 }

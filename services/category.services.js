@@ -19,7 +19,6 @@ class CategoriesService {
     if(!category) {
       throw boom.notFound('Category not found');
     }
-    debugger;
     return category;
 
   }
