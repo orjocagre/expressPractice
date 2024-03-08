@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const CategoriesService = require('./../services/category.services');
-const service = new CategoriesService();
+const OrdersService = require('./../services/order.services');
+const service = new OrdersService();
 const validatorHandler = require('./../middlewares/validator.handler');
 
 const {
-  createCategorySchema,
-  updateCategorySchema,
-  getCategorySchema,
-} = require('./../schemas/category.schema');
+  addItemSchema,
+  createOrderSchema,
+  updateOrderSchema,
+  getOrderSchema,
+} = require('./../schemas/order.schema');
 
-router.get('/:categoryId/products/:productId', (req, res) => {
-  const { categoryId, productId } = req.params;
+router.get('/:orderId/products/:productId', (req, res) => {
+  const { orderId, productId } = req.params;
   res.json({
-    categoryId,
+    orderId,
     productId,
   });
 });
@@ -27,7 +28,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id',
-validatorHandler(getCategorySchema, 'params'),
+validatorHandler(getOrderSchema, 'params'),
 async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -39,7 +40,7 @@ async (req, res, next) => {
 }
 );
 
-router.post('/', validatorHandler(createCategorySchema, 'body'), async (req, res, next) => {
+router.post('/', validatorHandler(createOrderSchema, 'body'), async (req, res, next) => {
   try {
     res.status(201).json(await service.create(req.body));
   } catch (err) {
@@ -48,8 +49,8 @@ router.post('/', validatorHandler(createCategorySchema, 'body'), async (req, res
 });
 
 router.patch('/:id',
-validatorHandler(updateCategorySchema, 'params'),
-validatorHandler(createCategorySchema, 'body'),
+validatorHandler(updateOrderSchema, 'params'),
+validatorHandler(createOrderSchema, 'body'),
 async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -64,7 +65,7 @@ async (req, res, next) => {
 
 
 router.delete('/:id',
-validatorHandler(getCategorySchema, 'params'),
+validatorHandler(getOrderSchema, 'params'),
 async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -75,6 +76,15 @@ async (req, res, next) => {
   }
 }
 );
+
+router.post('/add-item', validatorHandler(addItemSchema, 'body'), async (req, res, next) => {
+  try {
+    res.status(201).json(await service.addItem(req.body));
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 
 module.exports = router;

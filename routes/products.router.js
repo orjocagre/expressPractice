@@ -5,7 +5,8 @@ const {
   createProductSchema,
   updateProductSchema,
   getProductSchema,
-} = require('./../schemas/product.schma');
+  queryProductSchema
+} = require('./../schemas/product.schema');
 const router = express.Router();
 const service = new ProductsService();
 
@@ -13,13 +14,17 @@ const service = new ProductsService();
 //   res.send('hola');
 // })
 
-router.get('/', async (req, res) => {
-  const { initial } = req.query;
-  const { size } = req.query;
-  const limit = size || 10;
+router.get('/',
+validatorHandler(queryProductSchema, 'query'),
+async (req, res, next) => {
 
-  const products = await service.find(limit, initial);
-  res.status(200).json(products);
+  try {
+    const products = await service.find(req.query);
+    res.status(200).json(products);
+  }
+  catch (err) {
+    next(err);
+  }
 });
 
 router.get('/filter', async (req, res) => {
@@ -63,14 +68,21 @@ router.patch(
     } catch (error) {
       next(error);
     }
-  },
+  }
 );
 
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  const rta = await service.delete(id, body);
-  res.json(rta);
+router.delete('/:id',
+validatorHandler(getProductSchema, 'params'),
+async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const rta = await service.delete(id, body);
+    res.json(rta);
+  }
+  catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
